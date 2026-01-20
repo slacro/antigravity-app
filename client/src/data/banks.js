@@ -1,0 +1,26 @@
+export const VENEZUELA_BANKS = [
+    { id: "all", name: "Todos los métodos" },
+    { id: "Banesco", name: "Banesco" },
+    { id: "PagoMoval", name: "Pago Móvil" }, // Binance code for Pago Movil often 'PagoMoval' or 'PagoMovil' - using common identifier
+    { id: "Mercantil", name: "Mercantil" },
+    { id: "BBVA", name: "Provincial (BBVA)" },
+    { id: "BancoDeVenezuela", name: "Banco de Venezuela" },
+    { id: "Bancamiga", name: "Bancamiga" },
+    { id: "BNC", name: "BNC (Nacional de Crédito)" },
+    { id: "Banplus", name: "Banplus" },
+    { id: "Bancaribe", name: "Bancaribe" },
+    { id: "BancoPlaza", name: "Banco Plaza" },
+    { id: "BancoDelTesoro", name: "Banco del Tesoro" },
+    { id: "Bancrecer", name: "Bancrecer" },
+    { id: "BancoActivo", name: "Banco Activo" },
+    { id: "BancoExterior", name: "Banco Exterior" },
+    { id: "Bicentenario", name: "Bicentenario" },
+    { id: "BancoCaroni", name: "Banco Caroní" },
+    { id: "100PorCiento", name: "100% Banco" },
+    { id: "BancoDelSur", name: "Banco del Sur" },
+    { id: "Sofitasa", name: "Sofitasa" },
+    { id: "VenezolanoDeCredito", name: "Venezolano de Crédito" },
+    { id: "MiBanco", name: "Mi Banco" },
+    { id: "Bangente", name: "Bangente" },
+    { id: "DHE", name: "DHE" }
+];
