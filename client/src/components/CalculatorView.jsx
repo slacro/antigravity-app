@@ -18,7 +18,7 @@ const CalculatorView = ({ rates, bcvHistory }) => {
                 amount: calcAmount,
                 paymentMethod: selectedBank
             });
-            const response = await fetch(`/api/p2p/calculate?${queryParams}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/p2p/calculate?${queryParams}`);
             const data = await response.json();
             setCalcResults(data);
         } catch (err) {
