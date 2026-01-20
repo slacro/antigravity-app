@@ -1,7 +1,7 @@
 export const VENEZUELA_BANKS = [
     { id: "all", name: "Todos los métodos" },
     { id: "Banesco", name: "Banesco" },
-    { id: "PagoMoval", name: "Pago Móvil" }, // Binance code for Pago Movil often 'PagoMoval' or 'PagoMovil' - using common identifier
+    { id: "PagoMovil", name: "Pago Móvil" }, // Binance code for Pago Movil is 'PagoMovil'
     { id: "Mercantil", name: "Mercantil" },
     { id: "BBVA", name: "Provincial (BBVA)" },
     { id: "BancoDeVenezuela", name: "Banco de Venezuela" },

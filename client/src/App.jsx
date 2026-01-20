@@ -156,6 +156,17 @@ function App() {
     const diff = binanceRate > 0 ? ((binanceRate - bcvRate) / bcvRate) * 100 : 0;
     const isPositive = diff > 0;
 
+    // Helper to calculate P2P Averages
+    const getAvg = (list) => {
+        if (!list || list.length === 0) return 0;
+        return list.reduce((sum, item) => sum + item.price, 0) / list.length;
+    };
+
+    const binanceBuyAvg = getAvg(p2pList.buy);
+    const binanceSellAvg = getAvg(p2pList.sell);
+    const bybitBuyAvg = getAvg(bybitList.buy);
+    const bybitSellAvg = getAvg(bybitList.sell);
+
     // Chart Data
     // Use real history if available, else simulate
     const bcvChartData = useMemo(() => {
@@ -226,8 +237,17 @@ function App() {
                                 </div>
                                 {/* Footer Info */}
                                 <div className="mt-auto pt-2 flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-800">
-                                    <span>Avg Rate: {binanceRate.toFixed(2)}</span>
-                                    <span>Live Data</span>
+                                    <div className="flex gap-3">
+                                        <span className="flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Avg Buy: <span className="text-slate-300 font-mono">{binanceBuyAvg > 0 ? binanceBuyAvg.toFixed(2) : '-.--'}</span>
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                                            Avg Sell: <span className="text-slate-300 font-mono">{binanceSellAvg > 0 ? binanceSellAvg.toFixed(2) : '-.--'}</span>
+                                        </span>
+                                    </div>
+                                    <span>Binance P2P</span>
                                 </div>
                             </DashboardCard>
 
@@ -262,8 +282,17 @@ function App() {
                                 </div>
                                 {/* Footer Info */}
                                 <div className="mt-auto pt-2 flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-800">
-                                    <span>Source: Bybit P2P</span>
-                                    <span>Live Data</span>
+                                    <div className="flex gap-3">
+                                        <span className="flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Avg Buy: <span className="text-slate-300 font-mono">{bybitBuyAvg > 0 ? bybitBuyAvg.toFixed(2) : '-.--'}</span>
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                                            Avg Sell: <span className="text-slate-300 font-mono">{bybitSellAvg > 0 ? bybitSellAvg.toFixed(2) : '-.--'}</span>
+                                        </span>
+                                    </div>
+                                    <span>Bybit P2P</span>
                                 </div>
                             </DashboardCard>
 
