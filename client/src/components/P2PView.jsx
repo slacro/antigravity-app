@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RefreshCw, TrendingUp, TrendingDown, DollarSign, AlertCircle, ShoppingCart, ArrowUpRight } from 'lucide-react';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
+import ArbitrageCard from './ArbitrageCard';
 import { API_BASE_URL } from '../config';
 
 const P2PView = () => {
@@ -102,6 +103,11 @@ const P2PView = () => {
                         <RefreshCw size={20} />
                     </button>
                 </div>
+            </div>
+
+            {/* AI Arbitrage Scanner */}
+            <div className="mb-6">
+                <ArbitrageCard />
             </div>
 
             {/* Grid of Ranges (6 Cards: 3 Ranges x 2 Platforms) - Layout: 2 Columns for Side-by-Side Comparison */}

@@ -31,6 +31,7 @@ import NewsView from './components/NewsView';
 import CryptoMarketTable from './components/CryptoMarketTable';
 import BCVDashboardCard from './components/BCVDashboardCard';
 import AverageMatrix from './components/AverageMatrix';
+import AIChatWidget from './components/AIChatWidget'; // Import Chat Widget
 
 // --- CHART UTILITIES ---
 const generateTrendData = (currentValue, startValue, points = 20) => {
@@ -503,6 +504,8 @@ function App() {
                     </div>
                 </div>
             )}
+            {/* Global AI Chat Widget */}
+            <AIChatWidget />
         </div>
     );
 }

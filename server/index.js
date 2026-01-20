@@ -308,7 +308,69 @@ app.get('/api/p2p/history', async (req, res) => {
 const cron = require('node-cron');
 const { scrapeNews } = require('./services/scraper');
 const { logP2PSnapshot } = require('./services/p2p_logger');
-const { generateDailyBrief, analyzeMarketTrends } = require('./services/ai_agent');
+const { generateDailyBrief, analyzeMarketTrends, chatWithAgent } = require('./services/ai_agent');
+
+// AI Chat Endpoint
+app.post('/api/ai/chat', async (req, res) => {
+    try {
+        const { message } = req.body;
+        // Fetch current context
+        const [bcvRate, binanceRate, bybitRate] = await Promise.all([
+            getBCVRate(),
+            getBinanceRate(),
+            getBybitRate()
+        ]);
+
+        const diff = binanceRate.buy > 0 ? ((binanceRate.buy - bcvRate.rate) / bcvRate.rate) * 100 : 0;
+
+        const context = {
+            bcv: bcvRate.rate,
+            binance: { buy: binanceRate.buy, sell: binanceRate.sell },
+            bybit: { buy: bybitRate.buy, sell: bybitRate.sell },
+            diff: diff.toFixed(2)
+        };
+
+        const reply = await chatWithAgent(message, context);
+        res.json({ reply });
+    } catch (err) {
+        console.error("Chat Error:", err);
+        res.status(500).json({ error: "Chat processing failed" });
+    }
+});
+
+// AI Arbitrage Endpoint
+const { generateArbitrageAnalysis } = require('./services/ai_agent');
+
+app.get('/api/p2p/arbitrage', async (req, res) => {
+    try {
+        // Collect P2P Data
+        const [binance, bybit] = await Promise.all([
+            getDashboardP2P(),
+            getBybitDashboard()
+        ]);
+
+        // Calculate averages for the AI
+        const getAvg = (list) => list.reduce((acc, item) => acc + item.price, 0) / (list.length || 1);
+
+        const p2pData = {
+            binance: {
+                buyAvg: getAvg(binance.buy).toFixed(2),
+                sellAvg: getAvg(binance.sell).toFixed(2)
+            },
+            bybit: {
+                buyAvg: getAvg(bybit.buy).toFixed(2),
+                sellAvg: getAvg(bybit.sell).toFixed(2)
+            }
+        };
+
+        const analysis = await generateArbitrageAnalysis(p2pData);
+        res.json({ analysis });
+
+    } catch (err) {
+        console.error("Arbitrage Error:", err);
+        res.status(500).json({ error: "Arbitrage analysis failed" });
+    }
+});
 
 // Manual Refresh Endpoint
 app.post('/api/news/refresh', async (req, res) => {

@@ -190,4 +190,51 @@ async function analyzeMarketTrends() {
     }
 }
 
-module.exports = { generateDailyBrief, analyzeMarketTrends };
+async function chatWithAgent(message, context) {
+    try {
+        const prompt = `
+        You are Antigravity AI, an expert crypto-financial assistant for the Venezuelan market.
+        
+        CURRENT MARKET DATA:
+        Official BCV: ${context.bcv} VES/USD
+        Parallel (Binance): Buy ${context.binance.buy} | Sell ${context.binance.sell} VES/USDT
+        Parallel (Bybit): Buy ${context.bybit.buy} | Sell ${context.bybit.sell} VES/USDT
+        Spread (Gap): ${context.diff}%
+
+        User Question: "${message}"
+
+        Provide a helpful, concise answer (max 3 sentences). 
+        If asking for advice, base it on the math (e.g., if Parallel > BCV, it's better to sell USDT there).
+        Always be professional but friendly.
+        `;
+
+        return await generateAIContent(prompt);
+    } catch (err) {
+        console.error("Agent Chat Error:", err.message);
+        return "Sorry, I'm having trouble analyzing the market right now. Please try again.";
+    }
+}
+
+async function generateArbitrageAnalysis(p2pData) {
+    try {
+        const prompt = `
+        Analyze these Crypto P2P stats for Venezuela (VES/USDT):
+        
+        BINANCE: Avg Buy: ${p2pData.binance.buyAvg}, Avg Sell: ${p2pData.binance.sellAvg}
+        BYBIT: Avg Buy: ${p2pData.bybit.buyAvg}, Avg Sell: ${p2pData.bybit.sellAvg}
+        
+        Identify the best Arbitrage Opportunity (Buying low on one, selling high on the other).
+        
+        Output strictly separate plain text paragraphs (no JSON):
+        1. The best move (e.g., "Buy on Bybit, Sell on Binance").
+        2. The potential profit margin per 100 USDT.
+        3. A risk warning (e.g., blocked accounts, time delay).
+        `;
+
+        return await generateAIContent(prompt);
+    } catch (err) {
+        return "Arbitrage analysis currently unavailable.";
+    }
+}
+
+module.exports = { generateDailyBrief, analyzeMarketTrends, chatWithAgent, generateArbitrageAnalysis };
